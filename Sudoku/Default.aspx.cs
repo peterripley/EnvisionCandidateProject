@@ -53,6 +53,11 @@ namespace Sudoku.Web
             Table originalPuzzleTable = new Table();
             Table solvedPuzzleTable = new Table();
 
+            originalPuzzleTable.Style.Add("border-spacing", "0px");
+            solvedPuzzleTable.Style.Add("border-spacing", "0px");
+            originalPuzzleTable.Style.Add("border", "solid black 3px");
+            solvedPuzzleTable.Style.Add("border", "solid black 3px");
+
             for(int rowIndex = 0; rowIndex < OriginalCellValues.Count; rowIndex++)
             {
                 char[] originalValues = new char[OriginalCellValues.Count];
@@ -76,10 +81,22 @@ namespace Sudoku.Web
                     solvedTableCell.Width = 21;
                     originalTableCell.Style.Add("text-align", "center");
                     solvedTableCell.Style.Add("text-align", "center");
-                    originalTableCell.BorderColor = Color.Black;
-                    solvedTableCell.BorderColor = Color.Black;
-                    originalTableCell.BorderWidth = 1;
-                    solvedTableCell.BorderWidth = 1;
+                    originalTableCell.Style.Add("border", "solid black 1px");
+                    solvedTableCell.Style.Add("border", "solid black 1px");
+                    originalTableCell.Style.Add("padding", "0px");
+                    solvedTableCell.Style.Add("padding", "0px");
+
+                    if ((columnIndex + 1) % (Puzzle.BoxWidth) == 0 && columnIndex < (Puzzle.Width - 1))
+                    {
+                        originalTableCell.Style.Add("border-right", "solid black 3px");
+                        solvedTableCell.Style.Add("border-right", "solid black 3px");
+                    }
+
+                    if ((rowIndex + 1) % (Puzzle.BoxHeight) == 0 && rowIndex < (Puzzle.Height - 1))
+                    {
+                        originalTableCell.Style.Add("border-bottom", "solid black 3px;");
+                        solvedTableCell.Style.Add("border-bottom", "solid black 3px");
+                    }
 
                     originalTableCell.Text = originalValue.ToString() == "0" ? " " : originalValue.ToString();
                     solvedTableCell.Text = solvedValue.ToString();
@@ -100,11 +117,7 @@ namespace Sudoku.Web
                 originalPuzzleTable.Rows.Add(originalTableRow);
                 solvedPuzzleTable.Rows.Add(solvedTableRow);
             }
-            originalPuzzleTable.BorderColor = Color.Black;
-            solvedPuzzleTable.BorderColor = Color.Black;
-            originalPuzzleTable.BorderWidth = 3;
-            solvedPuzzleTable.BorderWidth = 3;
-                        
+                                    
             this.original.Controls.Add(originalPuzzleTable);
             this.solved.Controls.Add(solvedPuzzleTable);
         }
