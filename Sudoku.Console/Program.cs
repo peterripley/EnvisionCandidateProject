@@ -22,10 +22,20 @@ namespace Sudoku.ConsoleApplication
             Puzzle puzzle = null;
             PuzzleInitializer initializer = new FileInitializer();
             initializer.InitializePuzzle(out puzzle);
-            Console.WriteLine(puzzle.ToString().Replace('0', ' '));
             
-            solver.Solve(puzzle);
-            Console.Write(puzzle);
+            if (puzzle.ErrorMessage == null)
+            {
+                Console.WriteLine(puzzle.ToString().Replace('0', ' '));
+                solver.Solve(puzzle);
+            }
+            if (puzzle.ErrorMessage != null)
+            {
+                Console.WriteLine(puzzle.ErrorMessage);
+            }
+            else
+            {
+                Console.Write(puzzle);
+            }
             Console.WriteLine();
             Console.WriteLine("Press <ENTER> to continue.");
             Console.ReadLine();

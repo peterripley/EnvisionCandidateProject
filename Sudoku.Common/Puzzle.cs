@@ -20,6 +20,8 @@ namespace Sudoku.Common
 
         #region Properties
 
+        public string ErrorMessage { get; set; }
+
         /// <summary>
         /// Gets the cell associated with the specified column and row.
         /// </summary>

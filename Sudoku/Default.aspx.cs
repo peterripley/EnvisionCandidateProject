@@ -21,19 +21,28 @@ namespace Sudoku.Web
         public void SolvePuzzles()
         {
             Puzzle puzzle = null;
-
+            List<char[]> OriginalCellValues = null;
             StrategySolver solver = new StrategySolver();
             solver.Strategies.Add(new Comprehensive());
             
             PuzzleInitializer initializer = new FileInitializer();
             initializer.PuzzleFilePath = Server.MapPath("~") + @"..\puzzles\";
             initializer.InitializePuzzle(out puzzle);
-            List<char[]> OriginalCellValues = GetPuzzleCellValues(puzzle);
-
-            solver.Solve(puzzle);
-            List<char[]> SolvedCellValues = GetPuzzleCellValues(puzzle);
-
-            WritePuzzle(puzzle, OriginalCellValues, SolvedCellValues);
+            
+            if (puzzle.ErrorMessage == null)
+            {
+                OriginalCellValues = GetPuzzleCellValues(puzzle);
+                solver.Solve(puzzle);
+            }
+            if(puzzle.ErrorMessage != null)
+            {
+                ReportError(puzzle.ErrorMessage);
+            }
+            else
+            {
+                List<char[]> SolvedCellValues = GetPuzzleCellValues(puzzle);
+                WritePuzzle(puzzle, OriginalCellValues, SolvedCellValues);
+            }
         }
 
         private List<char[]> GetPuzzleCellValues(Puzzle Puzzle)
@@ -120,6 +129,11 @@ namespace Sudoku.Web
                                     
             this.original.Controls.Add(originalPuzzleTable);
             this.solved.Controls.Add(solvedPuzzleTable);
+        }
+
+        private void ReportError(string ErrorMessage)
+        {
+            this.solved.InnerText = ErrorMessage;
         }
     }
 }

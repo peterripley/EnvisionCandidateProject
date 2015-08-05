@@ -73,7 +73,7 @@ namespace Sudoku.Common
             List<string> puzzleRows = GetPuzzleContent();
             int[] cellValues = new int[puzzleRows[0].Length * puzzleRows.Count];
             Alphabet puzzleAlphabet = new Alphabet();
-
+                        
             ExtractMetadata(puzzleRows);
 
             // Assumption: All values in the puzzle's alphabet can be found among the pre-filled cells it contains.
@@ -98,6 +98,14 @@ namespace Sudoku.Common
                 {
                     Puzzle.Cells[cellIndex].SetAsSolved();
                 }
+            }
+            if (Puzzle.SolveCount == 0)
+            {
+                Puzzle.ErrorMessage = "Error: The puzzle has no starting values in it.";
+            }
+            else
+            {
+                Puzzle.ErrorMessage = null;
             }
         }
 

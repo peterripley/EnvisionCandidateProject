@@ -21,7 +21,7 @@ namespace Sudoku.Strategies
         {
             this.Puzzle = puzzle;
 
-            while(!Puzzle.IsSolved)
+            while (!Puzzle.IsSolved)
             {
                 for (int rowIndex = 0; rowIndex < Puzzle.Height; rowIndex++)
                 {
@@ -35,7 +35,14 @@ namespace Sudoku.Strategies
                     }
                 }
             }
-            this.Puzzle.Validate();
+            try
+            {
+                this.Puzzle.Validate();
+            }
+            catch (Exception e)
+            {
+                Puzzle.ErrorMessage = e.Message;
+            }
         }
         /// <summary>
         /// Removes candidate values from cells using various scanning methods
